@@ -14,6 +14,7 @@ class Main extends Phaser.Scene {
     }
 //ADD ENTITIES
     create() {
+      this.playerScale = 0.2
       let sky = this.add.image(400, 250, "Sky");
       sky.setScale(1.4);
 
@@ -24,7 +25,7 @@ class Main extends Phaser.Scene {
       this.platforms.create(400, 400, "island").setDisplaySize(100, 30).refreshBody();
       this.platforms.create(300, 150, "island").setDisplaySize(100, 30).refreshBody();
 
-      this.player = this.physics.add.sprite(100, 0, "player").setScale(0.3);
+      this.player = this.physics.add.sprite(100, 0, "player").setScale(this.playerScale);
       this.player.setCollideWorldBounds(true);
       this.player.setBounce(0.2);
       
@@ -72,6 +73,8 @@ class Main extends Phaser.Scene {
     collectLasagna(player, lasagna) {
       lasagna.disableBody(true,true)
       this.score += 1
+      this.playerScale += 0.05
+      this.player.setScale(this.playerScale)
       this.ScoreDisplay.setText(`Score: ${this.score}`)
       if(this.lasagna.countActive(true) === 0){
         this.lasagna.children.iterate(child => {
